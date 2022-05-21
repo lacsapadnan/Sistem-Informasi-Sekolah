@@ -103,24 +103,29 @@ class MateriController extends Controller
      */
     public function update(Request $request, Materi $materi)
     {
-        $materi->judul = $request->judul;
-        $materi->deskripsi = $request->deskripsi;
-        $materi->kelas_id = $request->kelas_id;
+        $data = $request->all();
+        $materi->update($data);
 
-        if($request->hasFile('file'))
-        {
-            $lokasi = 'file/materi/'.$materi->file;
-            if(File::exists($lokasi)) {
-                File::delete($lokasi);
-            }
+        $this->validate($request, [
+            'file' => 'required|mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
+        ]);
+
+        if($request->hasFile('file')) {
             $file = $request->file('file');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
-            $tujuanFoto = public_path('/file/materi');
-            $file->move($tujuanFoto, $namaFile);
-            $materi->file = $namaFile;
-        }
+            $file = $file->storeAs('file/materi', $namaFile, 'public');
+            $materi->file = $file;
+            $materi->save();
 
-        $materi->update();
+            // Delete old file
+            $oldFile = $materi->file;
+            $path = storage_path('app/public/file/materi/' . $oldFile);
+            if (File::exists($path)) {
+                File::delete($path);
+            } else {
+                File::delete($path);
+            }
+        }
 
         return redirect()->route('materi.index')->with('success', 'Data materi berhasil diubah');
     }

@@ -32,17 +32,17 @@
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input id="file" type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file">
-                                            <label class="custom-file-label" for="file">Pilih file</label>
+                                            <label class="custom-file-label" for="file">{{ $materi->file ?? '' }}</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="judul">Judul</label>
-                                    <input type="text" id="judul" name="judul" class="form-control @error('judul') is-invalid @enderror" placeholder="{{ __('Judul materi') }}" value="{{ $materi->judul }}">
+                                    <input type="text" id="judul" name="judul" class="form-control @error('judul') is-invalid @enderror" placeholder="{{ __('Judul materi') }}" value="{{ $materi->judul ?? '' }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
-                                    <textarea id="deskripsi" name="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" placeholder="{{ __('Deskripsi materi') }}">{{ $materi->deskripsi }}</textarea>
+                                    <textarea id="deskripsi" name="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" placeholder="{{ __('Deskripsi materi') }}">{{ $materi->deskripsi ?? '' }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="kelas_id">Kelas</label>
@@ -53,7 +53,7 @@
                                             @if ($materi->kelas_id == $data->id)
                                                 selected
                                             @endif
-                                        >{{ $data->nama_kelas }}</option>
+                                        >{{ $data->nama_kelas ?? '' }}</option>
                                         @endforeach
                                     </select>
                                 </div>
