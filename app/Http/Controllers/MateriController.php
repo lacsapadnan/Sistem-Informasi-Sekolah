@@ -107,7 +107,7 @@ class MateriController extends Controller
         $materi->update($data);
 
         $this->validate($request, [
-            'file' => 'required|mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
+            'file' => 'mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
         ]);
 
         if($request->hasFile('file')) {
