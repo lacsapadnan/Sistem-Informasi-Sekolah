@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\MateriController;
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['auth','checkRole:siswa']], function() {
 });
 Route::group(['middleware' => ['auth','checkRole:admin']], function() {
     Route::get('/admin/dashboard', [HomeController::class, 'admin'])->name('admin.dashboard');
+    Route::resource('jurusan', JurusanController::class);
     Route::resource('mapel', MapelController::class);
     Route::resource('guru', GuruController::class);
     Route::resource('kelas', KelasController::class);

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jurusan;
-use App\Models\Mapel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 
-class MapelController extends Controller
+class JurusanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,7 @@ class MapelController extends Controller
     public function index()
     {
         $jurusan = Jurusan::OrderBy('nama_jurusan', 'asc')->get();
-        $mapel = Mapel::OrderBy('nama_mapel', 'asc')->get();
-
-        return view('pages.admin.mapel.index', compact('mapel', 'jurusan'));
+        return view('pages.admin.jurusan.index', compact('jurusan'));
     }
 
     /**
@@ -41,23 +37,21 @@ class MapelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama_mapel' => 'required|unique:mapels',
-            'jurusan_id' => 'required'
+            'nama_jurusan' => 'required|unique:jurusans',
         ], [
-            'nama_mapel.unique' => 'Nama Mapel sudah ada',
+            'nama_jurusan.unique' => 'Nama Jurusan sudah ada',
         ]);
 
-        Mapel::updateOrCreate(
+        Jurusan::updateOrCreate(
             [
-                'id' => $request->mapel_id
+                'id' => $request->jurusan_id
             ],
             [
-                'nama_mapel' => $request->nama_mapel,
-                'jurusan_id' => $request->jurusan_id,
+                'nama_jurusan' => $request->nama_jurusan,
             ]
         );
 
-        return back()->with('success', 'Data mapel berhasil diperbarui!');
+        return back()->with('success', 'Data jurusan berhasil diperbarui!');
     }
 
     /**
@@ -68,7 +62,7 @@ class MapelController extends Controller
      */
     public function show($id)
     {
-        abort(404);
+        //
     }
 
     /**
@@ -79,10 +73,7 @@ class MapelController extends Controller
      */
     public function edit($id)
     {
-        $id = Crypt::decrypt($id);
-        $mapel = Mapel::findOrFail($id);
-
-        return view('pages.admin.mapel.edit', compact('mapel'));
+        //
     }
 
     /**
@@ -94,11 +85,7 @@ class MapelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $mapel = Mapel::findOrFail($id);
-        $mapel->update($data);
-
-        return redirect()->route('mapel.index')->with('success', 'Data mapel berhasil diperbarui!');
+        //
     }
 
     /**
@@ -109,7 +96,6 @@ class MapelController extends Controller
      */
     public function destroy($id)
     {
-        Mapel::find($id)->delete();
-        return back()->with('success', 'Data mapel berhasil dihapus!');
+        //
     }
 }

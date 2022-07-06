@@ -107,27 +107,34 @@ class TugasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tugas $tugas)
+    public function update(Request $request, $id)
     {
 
-        $tugas->judul = $request->judul;
-        $tugas->deskripsi = $request->deskripsi;
-        $tugas->kelas_id = $request->kelas_id;
+        $data = $request->all();
 
-        if($request->hasFile('file'))
-        {
-            $lokasi = 'file/tugas/'.$tugas->file;
-            if(File::exists($lokasi)) {
-                File::delete($lokasi);
-            }
+        $tugas = Tugas::find($id);
+        $tugas->update($data);
+
+        $this->validate($request, [
+            'file' => 'mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
+        ]);
+
+        if($request->hasFile('file')) {
             $file = $request->file('file');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
-            $tujuanFile = public_path('/file/tugas');
-            $file->move($tujuanFile, $namaFile);
-            $tugas->file = $namaFile;
-        }
+            $file = $file->storeAs('file/tugas', $namaFile, 'public');
+            $tugas->file = $file;
+            $tugas->save();
 
-        $tugas->update();
+            // Delete old file
+            $oldFile = $tugas->file;
+            $path = storage_path('app/public/file/tugas/' . $oldFile);
+            if (File::exists($path)) {
+                File::delete($path);
+            } else {
+                File::delete($path);
+            }
+        }
 
         return redirect()->route('tugas.index')->with('success', 'Tugas berhasil diubah');
     }

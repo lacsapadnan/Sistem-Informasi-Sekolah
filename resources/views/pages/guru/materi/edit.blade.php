@@ -31,7 +31,7 @@
                                     <label for="foto">File Materi</label>
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input id="file" type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file">
+                                            <input id="file" type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file" value="{{ $materi->file ?? '' }}">
                                             <label class="custom-file-label" for="file">{{ $materi->file ?? '' }}</label>
                                         </div>
                                     </div>

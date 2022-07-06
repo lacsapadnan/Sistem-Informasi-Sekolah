@@ -9,5 +9,10 @@ class Mapel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_mapel', 'jurusan'];
+    protected $fillable = ['nama_mapel', 'jurusan_id'];
+
+    public function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class);
+    }
 }
