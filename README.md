@@ -24,7 +24,7 @@ Sistem informasi sekolah berbasis laravel 8 dengan template dashboard
 
 - Fitur Pengumuman Sekolah
 
-- Fitur Kuis atau Ujian (Freemium)
+- Fitur Kuis atau Ujian (Premium)
 
 - Fitur Tabungan Siswa via Midtrans (Premium)
 
