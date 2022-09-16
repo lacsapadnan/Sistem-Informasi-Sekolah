@@ -21,8 +21,12 @@ class CreateSiswasTable extends Migration
             $table->string('telp');
             $table->string('alamat');
             $table->string('foto')->nullable();
-            $table->integer('kelas_id');
+            $table->bigInteger('kelas_id')->unsigned();
             $table->timestamps();
+
+            // Relation Tables
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
         });
     }
 

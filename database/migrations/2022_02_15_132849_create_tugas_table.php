@@ -15,12 +15,16 @@ class CreateTugasTable extends Migration
     {
         Schema::create('tugas', function (Blueprint $table) {
             $table->id();
-            $table->integer('kelas_id');
-            $table->integer('guru_id');
+            $table->bigInteger('kelas_id')->unsigned();
+            $table->bigInteger('guru_id')->unsigned();
             $table->string('judul');
             $table->string('deskripsi')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
+
+            // Relation Tables
+            $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
+            $table->foreign('guru_id')->references('id')->on('gurus')->onDelete('cascade');
         });
     }
 

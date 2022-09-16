@@ -18,9 +18,13 @@ class CreateMaterisTable extends Migration
             $table->string('judul');
             $table->string('deskripsi')->nullable();
             $table->string('file')->nullable();
-            $table->string('guru_id');
-            $table->string('kelas_id');
+            $table->bigInteger('guru_id')->unsigned();
+            $table->bigInteger('kelas_id')->unsigned();
             $table->timestamps();
+
+            // Relation Tables
+            $table->foreign('guru_id')->references('id')->on('gurus')->onDelete('cascade');
+            $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');
         });
     }
 

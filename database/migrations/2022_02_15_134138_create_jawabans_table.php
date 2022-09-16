@@ -16,12 +16,14 @@ class CreateJawabansTable extends Migration
         Schema::create('jawabans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tugas_id');
-            $table->integer('siswa_id');
+            $table->unsignedBigInteger('siswa_id');
             $table->string('jawaban');
             $table->string('file')->nullable();
             $table->timestamps();
 
+            // Relation tables
             $table->foreign('tugas_id')->references('id')->on('tugas')->onDelete('cascade');
+            $table->foreign('siswa_id')->references('id')->on('siswas')->onDelete('cascade');
         });
     }
 

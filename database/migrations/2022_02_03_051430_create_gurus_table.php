@@ -18,11 +18,15 @@ class CreateGurusTable extends Migration
             $table->biginteger('user_id')->unsigned()->nullable();
             $table->string('nama');
             $table->string('nip');
-            $table->integer('mapel_id');
+            $table->bigInteger('mapel_id')->unsigned();
             $table->string('no_telp');
             $table->string('alamat');
             $table->string('foto')->nullable();
             $table->timestamps();
+
+            // Relation tabels
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('mapel_id')->references('id')->on('mapels')->onDelete('cascade');
         });
     }
 

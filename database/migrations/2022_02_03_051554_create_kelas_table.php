@@ -16,8 +16,11 @@ class CreateKelasTable extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
             $table->string('nama_kelas');
-            $table->integer('guru_id');
+            $table->bigInteger('guru_id')->unsigned();
             $table->timestamps();
+
+            // Relation Tables
+            $table->foreign('guru_id')->references('id')->on('gurus')->onDelete('cascade');
         });
     }
 

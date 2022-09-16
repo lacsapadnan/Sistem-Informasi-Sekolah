@@ -16,8 +16,11 @@ class CreateMapelsTable extends Migration
         Schema::create('mapels', function (Blueprint $table) {
             $table->id();
             $table->string('nama_mapel');
-            $table->integer('jurusan_id')->unsigned();
+            $table->bigInteger('jurusan_id')->unsigned();
             $table->timestamps();
+
+            // Relation table
+            $table->foreign('jurusan_id')->references('id')->on('jurusans')->onDelete('cascade');
         });
     }
 
