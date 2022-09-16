@@ -40,7 +40,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $data->nama }}</td>
                                         <td>{{ $data->nip }}</td>
-                                        <td>{{ $data->mapel->nama_mapel }} | {{ $data->mapel->jurusan }}</td>
+                                        <td>{{ $data->mapel->nama_mapel }} | {{ $data->mapel->jurusan->nama_jurusan }}</td>
                                         <td>
                                             <div class="d-flex">
                                                 <a href="{{ route('guru.show', Crypt::encrypt($data->id)) }}" class="btn btn-primary btn-sm" style="margin-right: 8px"><i class="nav-icon fas fa-user"></i> &nbsp; Profile</a>
