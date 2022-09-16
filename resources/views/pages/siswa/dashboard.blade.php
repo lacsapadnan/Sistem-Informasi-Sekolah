@@ -27,7 +27,7 @@
                     <div class="profile-widget-description pb-0">
                         <div class="profile-widget-name">{{ $siswa->nama }}
                             <div class="text-muted d-inline font-weight-normal">
-                                <div class="slash"></div> Kelas {{ $siswa->kelas->nama_kelas }}
+                                <div class="slash"></div> siswa {{ $siswa->kelas->nama_kelas }}
                             </div>
                         </div>
                         <label for="alamat">Alamat</label>
