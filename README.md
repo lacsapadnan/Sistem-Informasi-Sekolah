@@ -22,7 +22,11 @@ Sistem informasi sekolah berbasis laravel 8 dengan template dashboard
 
 ## Next Update
 
+- Fitur Jadwal Sekolah
+
 - Fitur Pengumuman Sekolah
+
+- Fitur Absensi (Premium)
 
 - Fitur Kuis atau Ujian (Premium)
 
