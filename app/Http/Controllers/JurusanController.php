@@ -42,16 +42,12 @@ class JurusanController extends Controller
             'nama_jurusan.unique' => 'Nama Jurusan sudah ada',
         ]);
 
-        Jurusan::updateOrCreate(
-            [
-                'id' => $request->jurusan_id
-            ],
-            [
-                'nama_jurusan' => $request->nama_jurusan,
-            ]
-        );
+        Jurusan::create([
+            'id' => $request->jurusan_id,
+            'nama_jurusan' => $request->nama_jurusan,
+        ]);
 
-        return back()->with('success', 'Data jurusan berhasil diperbarui!');
+        return back()->with('success', 'Data jurusan berhasil dibuat!');
     }
 
     /**
@@ -62,7 +58,7 @@ class JurusanController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(404);
     }
 
     /**
@@ -73,7 +69,8 @@ class JurusanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jurusan = Jurusan::findOrFail($id);
+        return view('pages.admin.jurusan.edit', compact('jurusan'));
     }
 
     /**
@@ -85,7 +82,18 @@ class JurusanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'nama_jurusan' => 'unique:jurusans',
+        ], [
+            'nama_jurusan.unique' => 'Nama Jurusan sudah ada',
+        ]);
+
+        $data = $request->all();
+
+        $jurusan = Jurusan::findOrFail($id);
+        $jurusan->update($data);
+
+        return redirect()->route('jurusan.index')->with('success', 'Data jurusan berhasil diperbaharui!');
     }
 
     /**
@@ -96,6 +104,9 @@ class JurusanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $jurusan = Jurusan::findOrFail($id);
+        $jurusan->delete();
+
+        return back()->with('success', 'Data jurusan berhasil dihapus!');
     }
 }

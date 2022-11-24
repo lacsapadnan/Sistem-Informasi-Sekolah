@@ -38,7 +38,7 @@
                                         <td>{{ $data->nama_jurusan }}</td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="{{ route('jurusan.edit', Crypt::encrypt($data->id)) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-edit"></i> &nbsp; Edit</a>
+                                                <a href="{{ route('jurusan.edit', $data->id) }}" class="btn btn-success btn-sm"><i class="nav-icon fas fa-edit"></i> &nbsp; Edit</a>
                                                 <form method="POST" action="{{ route('jurusan.destroy', $data->id) }}">
                                                     @csrf
                                                     @method('delete')
