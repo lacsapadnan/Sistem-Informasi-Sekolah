@@ -21,7 +21,7 @@ class MateriController extends Controller
      */
     public function index()
     {
-        $guru = Guru::where('nip', Auth::user()->nip)->first();
+        $guru = Guru::where('user_id', Auth::user()->id)->first();
         $materi = Materi::where('guru_id', $guru->id)->get();
         $kelas = Kelas::OrderBy('nama_kelas', 'asc')->get();
         return view('pages.guru.materi.index', compact('materi', 'kelas', 'guru'));
