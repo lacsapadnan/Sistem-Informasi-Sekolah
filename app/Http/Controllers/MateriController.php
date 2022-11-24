@@ -34,7 +34,7 @@ class MateriController extends Controller
      */
     public function create()
     {
-        //
+        abort(404);
     }
 
     /**
@@ -51,7 +51,7 @@ class MateriController extends Controller
             'file' => 'required|mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
         ]);
 
-        if(isset($request->file)){
+        if (isset($request->file)) {
             $file = $request->file('file');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
             $file = $file->storeAs('file/materi', $namaFile, 'public');
@@ -76,7 +76,7 @@ class MateriController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(404);
     }
 
     /**
@@ -110,7 +110,7 @@ class MateriController extends Controller
             'file' => 'mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
         ]);
 
-        if($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
             $file = $file->storeAs('file/materi', $namaFile, 'public');
@@ -139,8 +139,8 @@ class MateriController extends Controller
     public function destroy($id)
     {
         $materi = Materi::find($id);
-        $lokasi = 'file/materi/'.$materi->file;
-        if(File::exists($lokasi)) {
+        $lokasi = 'file/materi/' . $materi->file;
+        if (File::exists($lokasi)) {
             File::delete($lokasi);
         }
 
@@ -148,7 +148,8 @@ class MateriController extends Controller
         return redirect()->route('materi.index')->with('success', 'Data materi berhasil dihapus');
     }
 
-    public function siswa() {
+    public function siswa()
+    {
         $siswa = Siswa::where('nis', Auth::user()->nis)->first();
         $kelas = Kelas::findOrFail($siswa->kelas_id);
         $materi = Materi::where('kelas_id', $kelas->id)->get();
@@ -157,10 +158,10 @@ class MateriController extends Controller
         return view('pages.siswa.materi.index', compact('materi', 'guru', 'kelas'));
     }
 
-    public function download($id) {
+    public function download($id)
+    {
         $file = Materi::findOrFail($id);
-        $path = storage_path('/app/public/'.$file->file);
+        $path = storage_path('/app/public/' . $file->file);
         return Response::download($path);
-
     }
 }

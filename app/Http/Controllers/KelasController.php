@@ -28,7 +28,7 @@ class KelasController extends Controller
      */
     public function create()
     {
-        //
+        abort(404);
     }
 
     /**
@@ -61,7 +61,7 @@ class KelasController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(404);
     }
 
     /**

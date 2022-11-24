@@ -29,7 +29,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        //
+        abort(404);
     }
 
     /**
@@ -53,7 +53,7 @@ class SiswaController extends Controller
             'kelas_id.unique' => 'Siswa sudah terdaftar di kelas ini',
         ]);
 
-        if(isset($request->foto)){
+        if (isset($request->foto)) {
             $file = $request->file('foto');
             $namaFoto = time() . '.' . $file->getClientOriginalExtension();
             $foto = $file->storeAs('images/siswa', $namaFoto, 'public');
@@ -70,7 +70,6 @@ class SiswaController extends Controller
 
 
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan');
-
     }
 
     /**
@@ -111,12 +110,12 @@ class SiswaController extends Controller
      */
     public function update(Request $request, Siswa $siswa)
     {
-        if($request->nis != $siswa->nis) {
+        if ($request->nis != $siswa->nis) {
             $this->validate($request, [
-            'nis' => 'unique:siswas'
-        ], [
-            'nis.unique' => 'NIS sudah terdaftar',
-        ]);
+                'nis' => 'unique:siswas'
+            ], [
+                'nis.unique' => 'NIS sudah terdaftar',
+            ]);
         }
 
         $siswa->nama = $request->nama;
@@ -125,10 +124,9 @@ class SiswaController extends Controller
         $siswa->alamat = $request->alamat;
         $siswa->kelas_id = $request->kelas_id;
 
-        if($request->hasFile('foto'))
-        {
-            $lokasi = 'img/siswa/'.$siswa->foto;
-            if(File::exists($lokasi)) {
+        if ($request->hasFile('foto')) {
+            $lokasi = 'img/siswa/' . $siswa->foto;
+            if (File::exists($lokasi)) {
                 File::delete($lokasi);
             }
             $foto = $request->file('foto');
@@ -141,7 +139,6 @@ class SiswaController extends Controller
         $siswa->update();
 
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diubah');
-
     }
 
     /**
@@ -153,8 +150,8 @@ class SiswaController extends Controller
     public function destroy($id)
     {
         $siswa = Siswa::find($id);
-        $lokasi = 'img/siswa/'.$siswa->foto;
-        if(File::exists($lokasi)) {
+        $lokasi = 'img/siswa/' . $siswa->foto;
+        if (File::exists($lokasi)) {
             File::delete($lokasi);
         }
 

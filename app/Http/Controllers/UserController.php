@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        abort(404);
     }
 
     /**
@@ -49,14 +49,14 @@ class UserController extends Controller
             'email.unique' => 'Email sudah terdaftar',
         ]);
 
-        if($request->roles == 'guru') {
+        if ($request->roles == 'guru') {
             $countGuru = Guru::where('nip', $request->nip)->count();
             $guruId = Guru::where('nip', $request->nip)->get();
             foreach ($guruId as $val) {
                 $guru = Guru::findOrFail($val->id);
             }
 
-            if($countGuru >= 1) {
+            if ($countGuru >= 1) {
                 User::create([
                     'name' => $guru->nama,
                     'email' => $request->email,
@@ -81,7 +81,7 @@ class UserController extends Controller
                 $siswa = Siswa::findOrFail($val->id);
             }
 
-            if($countSiswa >= 1) {
+            if ($countSiswa >= 1) {
                 User::create([
                     'name' => $siswa->nama,
                     'email' => $request->email,
@@ -144,7 +144,7 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        if(Auth::user()->roles == 'guru') {
+        if (Auth::user()->roles == 'guru') {
 
             $data = $request->all();
 
@@ -161,8 +161,7 @@ class UserController extends Controller
             $user->name = $data['nama'];
             $user->email = $data['email'];
             $user->update($data);
-
-        } else if(Auth::user()->roles == 'siswa') {
+        } else if (Auth::user()->roles == 'siswa') {
 
             $data = $request->all();
 
@@ -179,7 +178,6 @@ class UserController extends Controller
             $user->name = $data['nama'];
             $user->email = $data['email'];
             $user->update($data);
-
         } else {
             $data = $request->all();
 
@@ -212,18 +210,18 @@ class UserController extends Controller
         $admin = User::findOrFail(Auth::user()->id);
 
         return view('pages.ubah-password', compact('guru', 'siswa', 'admin'));
-
     }
 
-    public function updatePassword(Request $request) {
+    public function updatePassword(Request $request)
+    {
 
         // dd($request->all());
 
-        if(!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
             return redirect()->back()->with("error", "Password lama tidak sesuai");
         }
 
-        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
+        if (strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
             return redirect()->back()->with("error", "Password baru tidak boleh sama dengan password lama");
         }
 
