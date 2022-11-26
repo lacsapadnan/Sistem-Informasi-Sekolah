@@ -98,8 +98,8 @@
                                             <label for="kelas_id">Kelas</label>
                                             <select id="kelas_id" name="kelas_id" class="select2 form-control @error('kelas_id') is-invalid @enderror">
                                                 <option value="">-- Pilih Kelas --</option>
-                                                @foreach ($kelas as $data )
-                                                <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
+                                                @foreach ($jadwal as $data )
+                                                <option value="{{ $data->kelas_id }}">{{ $data->kelas->nama_kelas }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

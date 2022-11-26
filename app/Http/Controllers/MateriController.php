@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\Jadwal;
 use App\Models\Kelas;
 use App\Models\Materi;
 use App\Models\Siswa;
@@ -23,8 +24,8 @@ class MateriController extends Controller
     {
         $guru = Guru::where('user_id', Auth::user()->id)->first();
         $materi = Materi::where('guru_id', $guru->id)->get();
-        $kelas = Kelas::OrderBy('nama_kelas', 'asc')->get();
-        return view('pages.guru.materi.index', compact('materi', 'kelas', 'guru'));
+        $jadwal = Jadwal::where('mapel_id', $guru->mapel_id)->get();
+        return view('pages.guru.materi.index', compact('materi', 'jadwal', 'guru'));
     }
 
     /**
