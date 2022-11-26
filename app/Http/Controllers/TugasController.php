@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\Jadwal;
 use App\Models\Jawaban;
 use App\Models\Kelas;
 use App\Models\Siswa;
@@ -23,9 +24,16 @@ class TugasController extends Controller
 
     public function index()
     {
-        $tugas = Tugas::all();
-        $kelas = Kelas::all();
-        return view('pages.guru.tugas.index', compact('tugas', 'kelas'));
+        $guru = Guru::where('user_id', Auth::user()->id)->first();
+        $tugas = Tugas::where('guru_id', $guru->id)->get();
+
+        // get kelas from tugas
+        $kelas = [];
+        foreach ($tugas as $key => $value) {
+            $kelas[] = Kelas::where('id', $value->kelas_id)->first();
+        }
+
+        return view('pages.guru.tugas.index', compact('tugas', 'jadwal'));
     }
 
     /**
@@ -53,7 +61,7 @@ class TugasController extends Controller
             'file' => 'required|mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
         ]);
 
-        if(isset($request->file)){
+        if (isset($request->file)) {
             $file = $request->file('file');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
             $file = $file->storeAs('file/tugas', $namaFile, 'public');
@@ -68,7 +76,6 @@ class TugasController extends Controller
         $tugas->save();
 
         return redirect()->route('tugas.index')->with('success', 'Tugas berhasil ditambahkan');
-
     }
 
     /**
@@ -82,7 +89,7 @@ class TugasController extends Controller
         $tugas = Tugas::find($id);
         $kelas = Kelas::find($tugas->kelas_id);
         $jawaban = Jawaban::where('tugas_id', $id)->get();
-        return view('pages.guru.tugas.show', compact('tugas', 'kelas', 'jawaban' ));
+        return view('pages.guru.tugas.show', compact('tugas', 'kelas', 'jawaban'));
     }
 
 
@@ -119,7 +126,7 @@ class TugasController extends Controller
             'file' => 'mimes:pdf,doc,docx,ppt,pptx,png,jpg,jpeg|max:2048',
         ]);
 
-        if($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
             $file = $file->storeAs('file/tugas', $namaFile, 'public');
@@ -148,8 +155,8 @@ class TugasController extends Controller
     public function destroy($id)
     {
         $tugas = Tugas::find($id);
-        $lokasi = 'file/tugas/'.$tugas->file;
-        if(File::exists($lokasi)) {
+        $lokasi = 'file/tugas/' . $tugas->file;
+        if (File::exists($lokasi)) {
             File::delete($lokasi);
         }
         $tugas->delete();
@@ -157,7 +164,8 @@ class TugasController extends Controller
         return redirect()->route('tugas.index')->with('success', 'Tugas berhasil dihapus');
     }
 
-    public function siswa() {
+    public function siswa()
+    {
         $siswa = Siswa::where('nis', Auth::user()->nis)->first();
         $kelas = Kelas::findOrFail($siswa->kelas_id);
         $tugas = Tugas::where('kelas_id', $kelas->id)->get();
@@ -169,16 +177,18 @@ class TugasController extends Controller
         return view('pages.siswa.tugas.index', compact('tugas', 'guru', 'kelas', 'jawaban'));
     }
 
-    public function download($id) {
+    public function download($id)
+    {
         $file = Tugas::findOrFail($id);
-        $path = storage_path('/app/public/'.$file->file);
+        $path = storage_path('/app/public/' . $file->file);
         return Response::download($path);
     }
 
-    public function kirimJawaban(Request $request) {
+    public function kirimJawaban(Request $request)
+    {
         $siswa = Siswa::where('nis', Auth::user()->nis)->first();
 
-        if(isset($request->file)){
+        if (isset($request->file)) {
             $file = $request->file('file');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
             $file = $file->storeAs('file/jawaban', $namaFile, 'public');
@@ -194,9 +204,10 @@ class TugasController extends Controller
         return redirect()->back()->with('success', 'Jawaban berhasil dikirim');
     }
 
-    public function downloadJawaban($id) {
+    public function downloadJawaban($id)
+    {
         $file = Jawaban::findOrFail($id);
-        $path = storage_path('/app/public/'.$file->file);
+        $path = storage_path('/app/public/' . $file->file);
         return Response::download($path);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Kelas;
 use App\Models\Mapel;
 use App\Models\Materi;
 use App\Models\Siswa;
+use App\Models\Tugas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,11 +51,10 @@ class HomeController extends Controller
         $guru = Guru::where('user_id', Auth::user()->id)->first();
         $materi = Materi::where('guru_id', $guru->id)->count();
         $jadwal = Jadwal::where('mapel_id', $guru->mapel_id)->get();
+        $tugas = Tugas::where('guru_id', $guru->id)->count();
+        $hari = Carbon::now()->locale('id')->isoFormat('dddd');
 
-        Carbon::setLocale('id');
-        $hari = Carbon::now()->dayName;
-
-        return view('pages.guru.dashboard', compact('guru', 'materi', 'jadwal', 'hari'));
+        return view('pages.guru.dashboard', compact('guru', 'materi', 'jadwal', 'hari', 'tugas'));
     }
 
     public function siswa()
