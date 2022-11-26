@@ -62,7 +62,9 @@ class HomeController extends Controller
         $siswa = Siswa::where('nis', Auth::user()->nis)->first();
         $kelas = Kelas::findOrFail($siswa->kelas_id);
         $materi = Materi::where('kelas_id', $kelas->id)->limit(3)->get();
-        $jumlahMateri = $materi->count();
-        return view('pages.siswa.dashboard', compact('materi', 'siswa', 'kelas', 'jumlahMateri',));
+        $tugas = Tugas::where('kelas_id', $kelas->id)->limit(3)->get();
+        $jadwal = Jadwal::where('kelas_id', $kelas->id)->get();
+        $hari = Carbon::now()->locale('id')->isoFormat('dddd');
+        return view('pages.siswa.dashboard', compact('materi', 'siswa', 'kelas', 'tugas', 'jadwal', 'hari'));
     }
 }
