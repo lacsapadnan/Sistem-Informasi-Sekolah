@@ -1,10 +1,10 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand mt-3">
-            <a href="">{{ config('app.name') }}</a>
+            <a href="">SISTEM INFORMASI SEKOLAH</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="#">{{ strtoupper(substr(config('app.name'), 0, 2)) }}</a>
+            <a href="#">LOGO</a>
         </div>
         <ul class="sidebar-menu">
             @if (Auth::check() && Auth::user()->roles == 'admin')
