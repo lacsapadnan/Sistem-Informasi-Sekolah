@@ -84,13 +84,14 @@ Siswa
 ```
 ## Update Selanjutnya
 
+(Free Version)
 - Fitur Pengumuman Sekolah
 
-- Fitur Absensi (Premium)
-
-- Fitur Kuis atau Ujian (Premium)
-
-- Fitur Tabungan Siswa via Midtrans (Premium)
-
-- Fitur Pembayaran Sekolah via Midtrans (Premium)
+(Premium Version)
+- Premium Template Metronic
+- Fitur Absensi
+- Fitur Kuis atau Ujian
+- Fitur Tabungan Siswa
+- Fitur Pembayaran Sekolah
+- Payment Gateway (Midtrans, Xendit, Tripay, dll)
 
