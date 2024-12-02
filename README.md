@@ -1,7 +1,7 @@
 
 # Sistem Informasi Sekolah
 
-Sistem informasi sekolah berbasis laravel 8 dengan template dashboard
+Sistem informasi sekolah berbasis laravel 11 dengan template dashboard
 [Stisla](https://getstisla.com/)
 ## Authors
 
