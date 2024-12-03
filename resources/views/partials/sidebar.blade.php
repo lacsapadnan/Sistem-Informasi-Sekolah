@@ -1,7 +1,8 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand mt-3">
-            <a href="">{{ config('app.name') }}</a>
+            <img src="{{ URL::asset($pengaturan->logo) ?? 'https://via.placeholder.com/300' }}" alt="" style="width: 50px">
+            <a href="">{{ $pengaturan->name ?? config('app.name') }}</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="#">{{ strtoupper(substr(config('app.name'), 0, 2)) }}</a>
@@ -26,6 +27,8 @@
             <li class="{{ request()->routeIs('user.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('user.index') }}"><i class="fas fa-user"></i> <span>User</span></a></li>
 
             <li class="{{ request()->routeIs('pengumuman-sekolah.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('pengumuman-sekolah.index') }}"><i class="fas fa-bullhorn"></i> <span>Pengumuman</span></a></li>
+
+            <li class="{{ request()->routeIs('pengaturan.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('pengaturan.index') }}"><i class="fas fa-cog"></i> <span>Pengaturan</span></a></li>
 
             @elseif (Auth::check() && Auth::user()->roles == 'guru')
             <li class="{{ request()->routeIs('guru.dashboard.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('guru.dashboard') }}"><i class="fas fa-columns"></i> <span>Dashboard</span></a></li>

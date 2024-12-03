@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Login &mdash; {{ config('app.name') }}</title>
+    <title>Login &mdash; {{ $pengaturan->name ?? config('app.name') }}</title>
     @include('includes.style')
 </head>
 
@@ -14,8 +14,8 @@
                 <div class="row">
                     <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
                         <div class="login-brand">
-                            {{-- <img src="{{ asset('assets/img/logo.png') }}" alt="logo" width="100" class="shadow-lights"> --}}
-                            <p>{{ config('app.name') }}</p>
+                            <img src="{{ URL::asset($pengaturan->logo) ?? 'https://via.placeholder.com/300' }}" alt="logo" width="100" class="shadow-lights">
+                            <p class="mt-4">{{ $pengaturan->name ?? config('app.name') }}</p>
                         </div>
                         @if(session()->has('info'))
                         <div class="alert alert-primary">
@@ -29,7 +29,7 @@
                         @endif
                         @yield('content')
                         <div class="simple-footer">
-                            Copyright &copy; ANKH Digital {{ date('Y') }}
+                            Copyright &copy; Pixel Overture {{ date('Y') }}
                         </div>
                     </div>
                 </div>
