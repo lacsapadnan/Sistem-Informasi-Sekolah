@@ -86,6 +86,8 @@ Siswa
 
 (Free Version)
 - Fitur Pengumuman Sekolah
+- e-Report
+- Role Orang tua (Lihat nilai)
 
 (Premium Version)
 - Premium Template Metronic
@@ -94,4 +96,6 @@ Siswa
 - Fitur Tabungan Siswa
 - Fitur Pembayaran Sekolah
 - Payment Gateway (Midtrans, Xendit, Tripay, dll)
+- Role Orangtua (Lihat absensi)
+- Fitur e-rapot
 
