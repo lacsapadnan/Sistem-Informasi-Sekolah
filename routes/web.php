@@ -7,6 +7,7 @@ use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MapelController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\PengumumanSekolahController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserController;
@@ -62,4 +63,5 @@ Route::group(['middleware' => ['auth', 'checkRole:admin']], function () {
     Route::resource('siswa', SiswaController::class);
     Route::resource('user', UserController::class);
     Route::resource('jadwal', JadwalController::class);
+    Route::resource('pengumuman-sekolah', PengumumanSekolahController::class);
 });
