@@ -85,7 +85,7 @@ Siswa
 ## Update Selanjutnya
 
 (Free Version)
-- Fitur Pengumuman Sekolah
+- Fitur Pengumuman Sekolah ✅
 - Role Orang tua (Lihat nilai)
 
 (Premium Version)
