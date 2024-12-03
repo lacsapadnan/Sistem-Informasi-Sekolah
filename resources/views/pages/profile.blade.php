@@ -7,16 +7,7 @@
         <div class="section-body">
             <div class="row d-flex justify-content-center">
                 <div class="col-12 col-sm-6 col-lg-6">
-                    @if ($message = Session::get('success'))
-                            <div class="alert alert-success alert-dismissible show fade">
-                            <div class="alert-body">
-                                <button class="close" data-dismiss="alert">
-                                <span>&times;</span>
-                                </button>
-                                {{ $message }}
-                            </div>
-                        </div>
-                    @endif
+                    @include('partials.alert')
                     <div class="card profile-widget">
                         @if (Auth::user()->roles == 'guru')
                             <div class="col-12 col-md-12 col-lg-12">
