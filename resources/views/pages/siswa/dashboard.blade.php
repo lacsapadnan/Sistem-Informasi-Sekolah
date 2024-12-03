@@ -41,14 +41,45 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-sm-12 col-lg-4">
+            <div class="col-12 col-sm-12 col-lg-3">
+                <div class="card card-hero" style="margin-top: 36px">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h4>Pengumuman</h4>
+                        <div class="card-description">Pengumuman sekolah hari ini</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="card-body p-0">
+                            <div class="tickets-list">
+                                @forelse ($pengumumans as $pengumuman)
+                                <div class="ticket-item">
+                                    <div class="ticket-title">
+                                        <h4>{{ $pengumuman->description }}</h4>
+                                    </div>
+                                </div>
+                                @empty
+                                <div class="ticket-item">
+                                    <div class="ticket-title">
+                                        <h4>Tidak ada pengumuman hari ini</h4>
+                                    </div>
+                                </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-lg-3">
                 <div class="card card-hero" style="margin-top: 36px">
                     <div class="card-header">
                         <div class="card-icon">
                             <i class="fas fa-calendar"></i>
                         </div>
-                        <h4>Jadwal Pelajaran</h4>
-                        <div class="card-description">Jadwal Pelajaran hari ini</div>
+                        <h4>Jadwal Mapel</h4>
+                        <div class="card-description">Jadwal Mapel hari ini</div>
                     </div>
                     <div class="card-body p-0">
                         <div class="card-body p-0">
@@ -77,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-lg-4">
+            <div class="col-12 col-sm-12 col-lg-3">
                 <div class="card card-hero" style="margin-top: 36px">
                     <div class="card-header">
                         <div class="card-icon">
@@ -118,13 +149,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-lg-4">
+            <div class="col-12 col-sm-12 col-lg-3">
                 <div class="card card-hero" style="margin-top: 36px">
                     <div class="card-header">
                         <div class="card-icon">
                             <i class="fas fa-book"></i>
                         </div>
-                        <h4>{{ $tugas->count }}</h4>
+                        <h4>{{ $tugas->count() }}</h4>
                         <div class="card-description">Tugas Tersedia</div>
                     </div>
                     <div class="card-body p-0">

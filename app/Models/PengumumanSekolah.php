@@ -12,4 +12,10 @@ class PengumumanSekolah extends Model
         'start_at' => 'date',
         'end_at' => 'date'
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('start_at', '<=', now())
+            ->where('end_at', '>=', now());
+    }
 }
