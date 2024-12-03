@@ -86,7 +86,6 @@ Siswa
 
 (Free Version)
 - Fitur Pengumuman Sekolah
-- e-Report
 - Role Orang tua (Lihat nilai)
 
 (Premium Version)
