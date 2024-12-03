@@ -12,16 +12,7 @@
                             <a class="btn btn-primary btn-sm" href="{{ route('tugas.index') }}">Kembali</a>
                         </div>
                         <div class="card-body">
-                            @if ($message = Session::get('success'))
-                                 <div class="alert alert-success alert-dismissible show fade">
-                                    <div class="alert-body">
-                                        <button class="close" data-dismiss="alert">
-                                        <span>&times;</span>
-                                        </button>
-                                        {{ $message }}
-                                    </div>
-                                </div>
-                            @endif
+                            @include('partials.alert')
                             <div class="table-responsive">
                                 <table class="table table-striped" id="table-2">
                                     <thead>

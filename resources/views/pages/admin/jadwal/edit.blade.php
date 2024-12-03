@@ -11,18 +11,7 @@
     <div class="section-body">
         <div class="row">
             <div class="col-12">
-                @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible show fade">
-                    <div class="alert-body">
-                        <button class="close" data-dismiss="alert">
-                            <span>&times;</span>
-                        </button>
-                        @foreach ($errors->all() as $error )
-                        {{ $error }}
-                        @endforeach
-                    </div>
-                </div>
-                @endif
+                @include('partials.alert')
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h4>Edit jadwal mapel {{ $jadwal->mapel->nama_mapel }} pada hari {{ $jadwal->hari }}</h4>

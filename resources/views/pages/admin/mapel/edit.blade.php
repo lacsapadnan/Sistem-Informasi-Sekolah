@@ -12,6 +12,7 @@
                             <a href="{{ route('mapel.index') }}" class="btn btn-primary">Kembali</a>
                         </div>
                         <div class="card-body">
+                            @include('partials.alert')
                             <form method="POST" action="{{ route('mapel.update', $mapel->id) }}">
                                 @csrf
                                 @method('PUT')

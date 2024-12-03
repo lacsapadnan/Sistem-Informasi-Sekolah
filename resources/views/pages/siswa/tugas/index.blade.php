@@ -11,6 +11,7 @@
                         <h4>List Tugas</h4>
                     </div>
                     <div class="card-body">
+                        @include('partials.alert')
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-2">
                                 <thead>

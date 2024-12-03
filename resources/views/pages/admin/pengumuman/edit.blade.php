@@ -12,18 +12,7 @@
                             <a href="{{ route('pengumuman-sekolah.index') }}" class="btn btn-primary">Kembali</a>
                         </div>
                         <div class="card-body">
-                            @if ($errors->any())
-                                <div class="alert alert-danger alert-dismissible show fade">
-                                    <div class="alert-body">
-                                        <button class="close" data-dismiss="alert">
-                                            <span>&times;</span>
-                                        </button>
-                                        @foreach ($errors->all() as $error)
-                                            {{ $error }}
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
+                            @include('partials.alert')
                             <form method="POST" action="{{ route('pengumuman-sekolah.update', $pengumuman->id) }}">
                                 @csrf
                                 @method('PUT')
