@@ -87,7 +87,7 @@ Siswa
 (Free Version)
 - Fitur Pengumuman Sekolah ✅
 - Role Orang tua (Lihat nilai)
-- Pengaturan
+- Pengaturan ✅
 
 (Premium Version)
 - Premium Template Metronic
