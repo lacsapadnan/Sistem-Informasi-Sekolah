@@ -86,7 +86,7 @@ Siswa
 
 (Free Version)
 - Fitur Pengumuman Sekolah ✅
-- Role Orang tua (Lihat pengumpulan tugas)
+- Role Orang tua (Lihat pengumpulan tugas) ✅
 - Pengaturan ✅
 
 (Premium Version)
