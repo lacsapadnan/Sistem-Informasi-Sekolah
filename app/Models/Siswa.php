@@ -16,4 +16,13 @@ class Siswa extends Model
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 
+    public function orangtua()
+    {
+        return $this->belongsToMany(Orangtua::class, 'orangtua_siswas', 'siswa_id', 'orangtua_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

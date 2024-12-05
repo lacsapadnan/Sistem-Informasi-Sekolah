@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Guru;
+use App\Models\Orangtua;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -20,7 +22,8 @@ class UserController extends Controller
     public function index()
     {
         $user = User::OrderBy('roles', 'asc')->get();
-        return view('pages.admin.user.index', compact('user'));
+        $siswaList = Siswa::with('user')->OrderBy('id', 'asc')->get();
+        return view('pages.admin.user.index', compact('user', 'siswaList'));
     }
 
     /**
@@ -49,63 +52,96 @@ class UserController extends Controller
             'email.unique' => 'Email sudah terdaftar',
         ]);
 
-        if ($request->roles == 'guru') {
-            $countGuru = Guru::where('nip', $request->nip)->count();
-            $guruId = Guru::where('nip', $request->nip)->get();
-            foreach ($guruId as $val) {
-                $guru = Guru::findOrFail($val->id);
-            }
+        DB::beginTransaction();
 
-            if ($countGuru >= 1) {
-                User::create([
-                    'name' => $guru->nama,
+        try {
+            if ($request->roles == 'guru') {
+                $countGuru = Guru::where('nip', $request->nip)->count();
+                $guruId = Guru::where('nip', $request->nip)->get();
+                foreach ($guruId as $val) {
+                    $guru = Guru::findOrFail($val->id);
+                }
+
+                if ($countGuru >= 1) {
+                    User::create([
+                        'name' => $guru->nama,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'roles' => $request->roles,
+                        'nip' => $request->nip
+                    ]);
+
+                    // Add user id to guru table
+                    $guru->user_id = User::where('email', $request->email)->first()->id;
+                    $guru->save();
+
+                    DB::commit();
+                    return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan');
+                } else {
+                    DB::rollBack();
+                    return redirect()->route('user.index')->withInput()->with('error', 'NIP tidak terdaftar sebagai guru');
+                }
+            } elseif ($request->roles == "siswa") {
+                $countSiswa = Siswa::where('nis', $request->nis)->count();
+                $siswaId = Siswa::where('nis', $request->nis)->get();
+                foreach ($siswaId as $val) {
+                    $siswa = Siswa::findOrFail($val->id);
+                }
+
+                if ($countSiswa >= 1) {
+                    User::create([
+                        'name' => $siswa->nama,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'roles' => $request->roles,
+                        'nis' => $request->nis
+                    ]);
+
+                    // Add user id to siswa table
+                    $siswa->user_id = User::where('email', $request->email)->first()->id;
+                    $siswa->save();
+
+                    DB::commit();
+                    return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan');
+                } else {
+                    DB::rollBack();
+                    return redirect()->route('user.index')->withInput()->with('error', 'NIS tidak terdaftar sebagai siswa');
+                }
+            } elseif ($request->roles == 'orangtua') {
+                $user = User::create([
+                    'name' => $request->name,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
-                    'roles' => $request->roles,
-                    'nip' => $request->nip
+                    'roles' => 'orangtua'
                 ]);
 
-                // Add user id to guru table
-                $guru->user_id = User::where('email', $request->email)->first()->id;
-                $guru->save();
+                $orangtua = Orangtua::create([
+                    'user_id' => $user->id,
+                    'alamat' => $request->alamat,
+                    'no_telp' => $request->no_telp,
+                ]);
 
+                if ($request->has('siswa') && is_array($request->siswa)) {
+                    $siswaIds = array_map('intval', $request->siswa);
+                    $orangtua->siswas()->sync($siswaIds);
+                }
 
-                return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan');
+                DB::commit();
+                return redirect()->route('user.index')->with('success', 'Data orangtua berhasil ditambahkan');
             } else {
-                return redirect()->route('user.index')->with('error', 'NIP tidak terdaftar sebagai guru');
-            }
-        } elseif ($request->roles == "siswa") {
-            $countSiswa = Siswa::where('nis', $request->nis)->count();
-            $siswaId = Siswa::where('nis', $request->nis)->get();
-            foreach ($siswaId as $val) {
-                $siswa = Siswa::findOrFail($val->id);
-            }
-
-            if ($countSiswa >= 1) {
                 User::create([
-                    'name' => $siswa->nama,
+                    'name' => $request->name,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
-                    'roles' => $request->roles,
-                    'nis' => $request->nis
+                    'roles' => $request->roles
                 ]);
 
-                // Add user id to siswa table
-                $siswa->user_id = User::where('email', $request->email)->first()->id;
-                $siswa->save();
-
+                DB::commit();
                 return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan');
-            } else {
-                return redirect()->route('user.index')->with('error', 'NIS tidak terdaftar sebagai siswa');
             }
-        } else {
-            User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'roles' => $request->roles
-            ]);
-            return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors($e->getMessage());
         }
     }
 
@@ -131,8 +167,9 @@ class UserController extends Controller
         $guru = Guru::where('user_id', Auth::user()->id)->first();
         $siswa = Siswa::where('user_id', Auth::user()->id)->first();
         $admin = User::findOrFail(Auth::user()->id);
+        $orangtua = Orangtua::where('user_id', Auth::user()->id)->first();
 
-        return view('pages.profile', compact('guru', 'siswa', 'admin'));
+        return view('pages.profile', compact('guru', 'siswa', 'admin', 'orangtua'));
     }
 
     /**
@@ -144,51 +181,51 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        if (Auth::user()->roles == 'guru') {
-
+        DB::beginTransaction();
+        try {
             $data = $request->all();
 
-            // Save to guru table
-            $guru = Guru::where('user_id', Auth::user()->id)->first();
-            $guru->nama = $data['nama'];
-            $guru->nip = $data['nip'];
-            $guru->alamat = $data['alamat'];
-            $guru->no_telp = $data['no_telp'];
-            $guru->update($data);
+            if (Auth::user()->roles == 'guru') {
+                // Save to guru table
+                $guru = Guru::where('user_id', Auth::user()->id)->first();
+                $guru->nama = $data['nama'];
+                $guru->nip = $data['nip'];
+                $guru->alamat = $data['alamat'];
+                $guru->no_telp = $data['no_telp'];
+                $guru->update($data);
+            } else if (Auth::user()->roles == 'siswa') {
+                // Save to siswa table
+                $siswa = Siswa::where('user_id', Auth::user()->id)->first();
+                $siswa->nama = $data['nama'];
+                $siswa->nis = $data['nis'];
+                $siswa->alamat = $data['alamat'];
+                $siswa->telp = $data['telp'];
+                $siswa->update($data);
+            } else if (Auth::user()->roles == 'orangtua') {
+                // Save to orangtua table
+                $orangtua = Orangtua::where('user_id', Auth::user()->id)->first();
+                $orangtua->alamat = $data['alamat'];
+                $orangtua->no_telp = $data['no_telp'];
+                $orangtua->update($data);
 
-            // Save to user table
-            $user = Auth::user();
-            $user->name = $data['nama'];
-            $user->email = $data['email'];
-            $user->update($data);
-        } else if (Auth::user()->roles == 'siswa') {
-
-            $data = $request->all();
-
-            // Save to siswa table
-            $siswa = Siswa::where('user_id', Auth::user()->id)->first();
-            $siswa->nama = $data['nama'];
-            $siswa->nis = $data['nis'];
-            $siswa->alamat = $data['alamat'];
-            $siswa->telp = $data['telp'];
-            $siswa->update($data);
-
-            // Save to user table
-            $user = Auth::user();
-            $user->name = $data['nama'];
-            $user->email = $data['email'];
-            $user->update($data);
-        } else {
-            $data = $request->all();
+                if (isset($data['siswas']) && is_array($data['siswas'])) {
+                    $siswaIds = array_map('intval', $data['siswas']); // Ensure IDs are integers
+                    $orangtua->siswas()->sync($siswaIds); // Update the pivot table
+                }
+            }
 
             // Save to user table
             $user = Auth::user();
             $user->name = $data['name'];
             $user->email = $data['email'];
             $user->update($data);
-        }
 
-        return redirect()->route('profile')->with('success', 'Data berhasil diubah');
+            DB::commit();
+            return redirect()->route('profile')->with('success', 'Data berhasil diubah');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors($e->getMessage());
+        }
     }
 
     /**

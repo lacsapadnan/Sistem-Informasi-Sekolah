@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\Jadwal;
 use App\Models\Jawaban;
 use App\Models\Kelas;
+use App\Models\Orangtua;
 use App\Models\Siswa;
 use App\Models\Tugas;
 use Illuminate\Http\Request;
@@ -170,6 +171,32 @@ class TugasController extends Controller
         $jawaban = Jawaban::where('siswa_id', $siswa->id)->get();
 
         return view('pages.siswa.tugas.index', compact('tugas', 'guru', 'kelas', 'jawaban'));
+    }
+
+    public function orangtua()
+    {
+        $orangtua = Orangtua::where('user_id', Auth::user()->id)->first();
+        $siswas = $orangtua->siswas;
+        $tugas = Tugas::whereIn('kelas_id', $siswas->pluck('kelas_id'))
+            ->with(['jawaban' => function ($query) use ($siswas) {
+                $query->whereIn('siswa_id', $siswas->pluck('id'));
+            }])
+            ->get()
+            ->map(function ($tugas) use ($siswas) {
+                return [
+                    'judul' => $tugas->judul,
+                    'mapel' => $tugas->guru->mapel->nama_mapel,
+                    'siswa' => $tugas->jawaban->isNotEmpty()
+                        ? $siswas->firstWhere('id', $tugas->jawaban->first()->siswa_id)->nama
+                        : null,
+                    'has_jawaban' => $tugas->jawaban->isNotEmpty(),
+                    'tgl_pengumpulan' => $tugas->jawaban->isNotEmpty()
+                        ? $tugas->jawaban->first()->created_at->format('Y-m-d')
+                        : null,
+                ];
+            });
+
+        return view('pages.orangtua.tugas', compact('tugas'));
     }
 
     public function download($id)

@@ -45,6 +45,8 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard');
         } elseif($user->roles == 'guru') {
             return redirect()->route('guru.dashboard');
+        } elseif($user->roles == 'orangtua'){
+            return redirect()->route('orangtua.dashboard');
         } else return redirect()->route('siswa.dashboard');
     }
 }
