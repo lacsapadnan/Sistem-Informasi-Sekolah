@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Guru;
+use App\Models\Orangtua;
 use App\Models\Siswa;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -61,6 +62,13 @@ class UserSeeder extends Seeder
             'nis' => '543212345',
         ]);
 
+        DB::table('users')->insert([
+            'name' => 'Orangtua',
+            'email' => 'ortu@mail.com',
+            'password' => Hash::make('ortu123'),
+            'roles' => 'orangtua',
+        ]);
+
         // update user_id to guru table as user id
         foreach ($guru as $g) {
             DB::table('gurus')->where('nip', $g->nip)->update([
@@ -72,6 +80,19 @@ class UserSeeder extends Seeder
         foreach ($siswa as $s) {
             DB::table('siswas')->where('nis', $s->nis)->update([
                 'user_id' => DB::table('users')->where('nis', $s->nis)->first()->id
+            ]);
+        }
+
+        DB::table('orangtua')->insert([
+            'user_id' => DB::table('users')->where('email', 'ortu@mail.com')->first()->id,
+            'no_telp' => '081234567890',
+            'alamat' => 'Jl. Orangtua',
+        ]);
+
+        foreach ($siswa as $s) {
+            DB::table('orangtua_siswas')->insert([
+                'orangtua_id' => DB::table('orangtua')->where('user_id', DB::table('users')->where('email', 'ortu@mail.com')->first()->id)->first()->id,
+                'siswa_id' => $s->id,
             ]);
         }
     }
