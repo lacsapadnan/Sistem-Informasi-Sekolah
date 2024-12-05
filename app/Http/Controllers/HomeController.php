@@ -7,6 +7,7 @@ use App\Models\Jadwal;
 use App\Models\Kelas;
 use App\Models\Mapel;
 use App\Models\Materi;
+use App\Models\Orangtua;
 use App\Models\PengumumanSekolah;
 use App\Models\Siswa;
 use App\Models\Tugas;
@@ -68,5 +69,16 @@ class HomeController extends Controller
         $hari = Carbon::now()->locale('id')->isoFormat('dddd');
         $pengumumans = PengumumanSekolah::active()->get();
         return view('pages.siswa.dashboard', compact('materi', 'siswa', 'kelas', 'tugas', 'jadwal', 'hari', 'pengumumans'));
+    }
+
+    public function orangtua()
+    {
+        $orangtua = Orangtua::with('siswas.kelas')
+            ->where('user_id', Auth::user()->id)
+            ->first();
+        $pengumumans = PengumumanSekolah::active()->get();
+
+        // dd($orangtua->toArray());
+        return view('pages.orangtua.dashboard', compact('orangtua', 'pengumumans'));
     }
 }
