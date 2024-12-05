@@ -83,7 +83,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        DB::table('orangtua')->insert([
+        DB::table('orangtuas')->insert([
             'user_id' => DB::table('users')->where('email', 'ortu@mail.com')->first()->id,
             'no_telp' => '081234567890',
             'alamat' => 'Jl. Orangtua',
@@ -91,7 +91,7 @@ class UserSeeder extends Seeder
 
         foreach ($siswa as $s) {
             DB::table('orangtua_siswas')->insert([
-                'orangtua_id' => DB::table('orangtua')->where('user_id', DB::table('users')->where('email', 'ortu@mail.com')->first()->id)->first()->id,
+                'orangtua_id' => DB::table('orangtuas')->where('user_id', DB::table('users')->where('email', 'ortu@mail.com')->first()->id)->first()->id,
                 'siswa_id' => $s->id,
             ]);
         }
