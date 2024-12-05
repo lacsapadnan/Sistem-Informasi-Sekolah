@@ -86,7 +86,7 @@ Siswa
 
 (Free Version)
 - Fitur Pengumuman Sekolah ✅
-- Role Orang tua (Lihat nilai)
+- Role Orang tua (Lihat pengumpulan tugas)
 - Pengaturan ✅
 
 (Premium Version)
@@ -96,6 +96,7 @@ Siswa
 - Fitur Tabungan Siswa
 - Fitur Pembayaran Sekolah
 - Payment Gateway (Midtrans, Xendit, Tripay, dll)
-- Role Orangtua (Lihat absensi)
+- Role Orangtua (Lihat absensi, nilai)
 - Fitur e-rapot
+- Fitur nilai tugas
 
