@@ -90,13 +90,13 @@ Siswa
 - Pengaturan ✅
 
 (Premium Version)
-- Premium Template Metronic
-- Fitur Absensi
-- Fitur Kuis atau Ujian
+- Premium Template Metronic ✅
+- Fitur Absensi ✅
+- Fitur Kuis atau Ujian ✅
 - Fitur Tabungan Siswa
-- Fitur Pembayaran Sekolah
+- Fitur Pembayaran Sekolah ✅
 - Payment Gateway (Midtrans, Xendit, Tripay, dll)
-- Role Orangtua (Lihat absensi, nilai)
+- Role Orangtua (Lihat absensi, nilai) ✅
 - Fitur e-rapot
-- Fitur nilai tugas
+- Fitur nilai tugas ✅
 
