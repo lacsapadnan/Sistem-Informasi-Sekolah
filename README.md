@@ -93,7 +93,7 @@ Siswa
 - Premium Template Metronic ✅
 - Fitur Absensi ✅
 - Fitur Kuis atau Ujian ✅
-- Fitur Tabungan Siswa
+- Fitur Tabungan Siswa ✅
 - Fitur Pembayaran Sekolah ✅
 - Payment Gateway (Midtrans, Xendit, Tripay, dll)
 - Role Orangtua (Lihat absensi, nilai) ✅
