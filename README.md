@@ -95,8 +95,18 @@ Siswa
 - Fitur Kuis atau Ujian ✅
 - Fitur Tabungan Siswa ✅
 - Fitur Pembayaran Sekolah ✅
-- Payment Gateway (Midtrans, Xendit, Tripay, dll)
+- Payment Gateway (Midtrans, Xendit, Tripay, dll) ✅(Currently Xendit Integrated)
 - Role Orangtua (Lihat absensi, nilai) ✅
-- Fitur e-rapot
+- Fitur e-rapot ✅
 - Fitur nilai tugas ✅
 
+
+## DEMO PREMIUM
+
+https://sekolah.pixeloverture.net
+
+Admin
+```bash
+  email : admin@mail.com
+  password : password
+```
