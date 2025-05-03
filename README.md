@@ -110,3 +110,11 @@ Admin
   email : admin@mail.com
   password : password
 ```
+
+## PEMBELIAN
+
+Promo 3/10 Orang Pertama **500rb**
+
+Hubungi 
+- https://wa.me/6282244793613
+- http://instagram.com/lacsapadnan
