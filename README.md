@@ -113,7 +113,7 @@ Admin
 
 ## PEMBELIAN
 
-Promo 3/10 Orang Pertama **500rb**
+Promo 5/10 Orang Pertama **500rb**
 
 Hubungi 
 - https://wa.me/6282244793613
