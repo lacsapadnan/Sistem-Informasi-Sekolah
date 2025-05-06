@@ -113,7 +113,8 @@ Admin
 
 ## PEMBELIAN
 
-Promo 5/10 Orang Pertama **500rb**
+~~Promo 10/10 Orang Pertama **500rb**~~
+Promo 10/20 Kloter Berikutnya **750rb**
 
 Hubungi 
 - https://wa.me/6282244793613
